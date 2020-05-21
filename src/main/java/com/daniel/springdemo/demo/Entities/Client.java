@@ -2,14 +2,14 @@ package com.daniel.springdemo.demo.Entities;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class User {
+@Table(name = "tb_user")
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,8 +18,12 @@ public class User {
     private String  phone;
     private String password;
 
+    //LADO ONE
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
-    public User(Integer id, String name, String email, String phone, String password) {
+
+    public Client(Integer id, String name, String email, String phone, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -27,7 +31,7 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public Client() {
     }
 
     public Integer getId() {
@@ -74,7 +78,7 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
+        Client user = (Client) o;
         return id.equals(user.id);
     }
 
