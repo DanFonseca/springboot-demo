@@ -17,7 +17,10 @@ public class Product {
     private Double price;
     private String imgUrl;
 
-
+    @ManyToMany
+    @JoinTable(name = "tb_products_categories",
+            joinColumns = @JoinColumn (name = "product_id"),
+            inverseJoinColumns = @JoinColumn (name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
 
@@ -38,6 +41,10 @@ public class Product {
 
     public String getName() {
         return name;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
     }
 
     public void setName(String name) {

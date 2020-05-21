@@ -15,7 +15,7 @@ public class Category {
     private Integer id;
     private String  name;
 
-
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
     public Category(Integer id, String name) {
