@@ -13,18 +13,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Instant moment;
-
+    private Integer orderStatus;
 
     //LADO MANY
     @ManyToOne
     @JoinColumn(name = "client_id") //chave estrangeira fica sempre no lado N
     private Client client;
 
-    public Order(Integer id, Instant moment, Client client) {
+
+    public Order(Integer id, Instant moment, Client client, OrderStatus orderStatus) {
         this.id = id;
         this.moment = moment;
-
         this.client = client;
+        setOrderStatus(orderStatus);
     }
 
     public Order() {
@@ -50,8 +51,14 @@ public class Order {
         return client;
     }
 
-    public void setClient(Client user) {
-        this.client = client;
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if(orderStatus !=null) {
+            this.orderStatus = orderStatus.getCode();
+        }
     }
 
     @Override

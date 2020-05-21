@@ -38,8 +38,8 @@ public class Client {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public List<Order> getOrders() {
+        return orders;
     }
 
     public String getName() {
