@@ -1,5 +1,7 @@
 package com.daniel.springdemo.demo.Services;
 
+import com.daniel.springdemo.demo.Entities.Order;
+import com.daniel.springdemo.demo.Entities.OrderItem;
 import com.daniel.springdemo.demo.Entities.Product;
 import com.daniel.springdemo.demo.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,12 @@
 package com.daniel.springdemo.demo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -18,10 +21,13 @@ public class Product {
     private String imgUrl;
 
     @ManyToMany
-    @JoinTable(name = "tb_products_categories",
+   @JoinTable(name = "tb_products_categories",
             joinColumns = @JoinColumn (name = "product_id"),
             inverseJoinColumns = @JoinColumn (name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> orderItems = new HashSet<>();
 
 
     public Product(Integer id, String name, String description, Double price, String imgUrl) {
@@ -45,6 +51,13 @@ public class Product {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrderItems (){
+        Set<Order> aux = orderItems.stream().map(OrderItem::getOrder)
+                .collect(Collectors.toSet());
+        return aux;
     }
 
     public void setName(String name) {

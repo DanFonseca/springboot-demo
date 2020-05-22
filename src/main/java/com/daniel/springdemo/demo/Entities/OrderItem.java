@@ -2,7 +2,6 @@ package com.daniel.springdemo.demo.Entities;
 
 import com.daniel.springdemo.demo.Entities.PK.OrderItemPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
