@@ -1,6 +1,7 @@
 package com.daniel.springdemo.demo.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_order")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -46,16 +48,16 @@ public class Order {
         return payment;
     }
 
+
     public Set<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+    public Integer getId() {
+        return id;
     }
 
     public Instant getMoment() {
@@ -78,6 +80,15 @@ public class Order {
         if(orderStatus !=null) {
             this.orderStatus = orderStatus.getCode();
         }
+    }
+
+    public  Double getTotal (){
+        Double sum = orderItems.stream()
+                .map(OrderItem::getSubTotal)
+                .reduce((a, b) -> a+b)
+                .get();
+
+        return sum;
     }
 
     @Override
