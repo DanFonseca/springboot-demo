@@ -2,11 +2,13 @@ package com.daniel.springdemo.demo.Configuration;
 
 import com.daniel.springdemo.demo.Entities.*;
 import com.daniel.springdemo.demo.Repositories.*;
+import com.fasterxml.jackson.databind.ser.std.AsArraySerializerBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
 
@@ -28,6 +30,9 @@ public class TestConfiguration implements CommandLineRunner {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -65,6 +70,16 @@ public class TestConfiguration implements CommandLineRunner {
         OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
         orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+
+        //setting payment in order
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        o1.setPayment(new Payment(null,sdf.parse("21-05-2020"),o1));
+        o2.setPayment(new Payment(null,sdf.parse("21-05-2020"),o2));
+        orderRepository.saveAll(Arrays.asList(o1,o2));
+
+
+
+
 
     }
 }

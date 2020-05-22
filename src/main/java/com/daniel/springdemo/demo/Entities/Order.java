@@ -25,6 +25,8 @@ public class Order {
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> orderItems = new HashSet<>();
 
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
+    private Payment payment;
 
     public Order(Integer id, Instant moment, Client client, OrderStatus orderStatus) {
         this.id = id;
@@ -34,6 +36,14 @@ public class Order {
     }
 
     public Order() {
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+    public Payment getPayment() {
+        return payment;
     }
 
     public Set<OrderItem> getOrderItems() {
