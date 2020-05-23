@@ -46,5 +46,10 @@ public class ClientResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Client> update (@PathVariable Integer id, @RequestBody Client client){
+       return ResponseEntity.ok().body(clientServices.update(client, id));
+    }
+
 
 }
