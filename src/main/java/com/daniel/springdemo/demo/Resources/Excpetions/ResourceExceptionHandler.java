@@ -1,6 +1,7 @@
 package com.daniel.springdemo.demo.Resources.Excpetions;
 
 import com.daniel.springdemo.demo.Services.Excpetions.DatabaseException;
+import com.daniel.springdemo.demo.Services.Excpetions.EntityNotFoundError;
 import com.daniel.springdemo.demo.Services.Excpetions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,16 @@ public class ResourceExceptionHandler {
             (DatabaseException e, HttpServletRequest request){
 
         String error = "Database Error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(),status.value(),error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(EntityNotFoundError.class)
+    public ResponseEntity <StandardError> entityNotFound
+            (EntityNotFoundError e, HttpServletRequest request){
+
+        String error = "Entity not Found";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(),status.value(),error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
