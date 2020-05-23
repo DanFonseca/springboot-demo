@@ -3,7 +3,6 @@ package com.daniel.springdemo.demo.Services;
 import com.daniel.springdemo.demo.Entities.Client;
 import com.daniel.springdemo.demo.Repositories.ClientRepository;
 import com.daniel.springdemo.demo.Services.Excpetions.DatabaseException;
-import com.daniel.springdemo.demo.Services.Excpetions.EntityNotFoundError;
 import com.daniel.springdemo.demo.Services.Excpetions.NumberFormatException;
 import com.daniel.springdemo.demo.Services.Excpetions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,17 +54,15 @@ public class ClientServices {
             entity = clientRepository.getOne(id);
             doUpdate(entity, client);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundError(id);
+            throw new ResourceNotFoundException(id);
         }catch (NumberFormatException e){
             throw new NumberFormatException(id);
-        }catch (RuntimeException e){
-            e.printStackTrace();
         }
 
         return clientRepository.save(entity);
     }
 
-    private void doUpdate(Client entity, Client client) throws EntityNotFoundError, NumberFormatException {
+    private void doUpdate(Client entity, Client client) throws EntityNotFoundException, NumberFormatException {
         entity.setName(client.getName());
         entity.setEmail(client.getEmail());
         entity.setPhone(client.getPhone());
