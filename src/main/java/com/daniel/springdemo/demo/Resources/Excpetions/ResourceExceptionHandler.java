@@ -21,4 +21,16 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(Instant.now(),status.value(),error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity <StandardError> numberFormatException
+            (NumberFormatException e, HttpServletRequest request){
+
+        String error = "Number Format Exception";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(),status.value(),error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+
 }
