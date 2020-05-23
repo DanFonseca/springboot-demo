@@ -2,7 +2,6 @@ package com.daniel.springdemo.demo.Configuration;
 
 import com.daniel.springdemo.demo.Entities.*;
 import com.daniel.springdemo.demo.Repositories.*;
-import com.fasterxml.jackson.databind.ser.std.AsArraySerializerBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,7 @@ import java.util.Arrays;
 public class TestConfiguration implements CommandLineRunner {
 
     @Autowired
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -58,7 +57,7 @@ public class TestConfiguration implements CommandLineRunner {
 
         Client u1 = new Client(null, "Jorge","jorge@gmail.com", "59252913","123");
         Client u2 = new Client(null, "Claudio","claudio@gmail.com", "55512358","asaAf");
-        userRepository.saveAll(Arrays.asList(u1,u2));
+        clientRepository.saveAll(Arrays.asList(u1,u2));
 
         Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u1, OrderStatus.CANCELED);
         Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u2, OrderStatus.PAID);
