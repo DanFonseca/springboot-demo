@@ -2,8 +2,13 @@ package com.daniel.springdemo.demo.Services;
 
 import com.daniel.springdemo.demo.Entities.Client;
 import com.daniel.springdemo.demo.Repositories.ClientRepository;
+import com.daniel.springdemo.demo.Services.Excpetions.DatabaseException;
+import com.daniel.springdemo.demo.Services.Excpetions.NumberFormatException;
 import com.daniel.springdemo.demo.Services.Excpetions.ResourceNotFoundException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +34,17 @@ public class ClientServices {
     }
 
     public void removeById(Integer id) {
-        clientRepository.deleteById(id);
+        try{
+            clientRepository.deleteById(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DatabaseException(e.getMessage());
+        }catch (NumberFormatException e){
+            throw new NumberFormatException(e.getMessage());
+        }catch (EmptyResultDataAccessException e){
+            throw new ResourceNotFoundException(id);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
     }
     public Client update (Client client, Integer id){
         Client entity = clientRepository.getOne(id);

@@ -1,5 +1,6 @@
 package com.daniel.springdemo.demo.Resources.Excpetions;
 
+import com.daniel.springdemo.demo.Services.Excpetions.DatabaseException;
 import com.daniel.springdemo.demo.Services.Excpetions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,16 @@ public class ResourceExceptionHandler {
             (NumberFormatException e, HttpServletRequest request){
 
         String error = "Number Format Exception";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(),status.value(),error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity <StandardError> dataBase
+            (DatabaseException e, HttpServletRequest request){
+
+        String error = "Database Error";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(),status.value(),error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
